@@ -48,9 +48,9 @@ const formData = reactive({
 
         <button
           type="submit"
-          class="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-150"
+          class="w-1/2 mx-auto block bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-150"
         >
-          Publish Article
+          Publish
         </button>
       </form>
     </div>

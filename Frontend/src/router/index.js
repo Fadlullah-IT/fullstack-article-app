@@ -6,6 +6,7 @@ import { useAuthStore } from '@/stores/auth'
 import CreateView from '@/views/Articles/CreateView.vue'
 import ShowView from '@/views/Articles/ShowView.vue'
 import UpdateView from '@/views/Articles/UpdateView.vue'
+import AboutView from '@/views/AboutView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,11 @@ const router = createRouter({
       name: 'update',
       component: UpdateView,
       meta: { auth: true },
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: AboutView,
     },
   ],
 })

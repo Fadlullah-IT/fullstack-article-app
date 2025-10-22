@@ -67,9 +67,9 @@ onMounted(async () => {
 
         <button
           type="submit"
-          class="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-150"
+          class="w-1/2 block mx-auto bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-150"
         >
-          Update Article
+          Update
         </button>
       </form>
     </div>

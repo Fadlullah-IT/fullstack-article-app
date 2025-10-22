@@ -1,57 +1,72 @@
 <script setup>
 import { RouterLink } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+
+const authStore = useAuthStore();
 </script>
 
 <template>
   <section
-    class="relative bg-white py-20 px-6 md:px-16 flex flex-col items-center text-center overflow-hidden border-b border-gray-200"
+    class="body border-b relative bg-[#f9f7f3] px-6 md:px-16 flex flex-col md:flex-row items-center justify-between overflow-hidden"
+    style="
+      background-image: url('/images/download.png');
+      background-size: cover;
+      background-position: center;
+    "
   >
-    <!-- Hero Content -->
-    <div class="relative z-10 max-w-3xl animate-fadeIn">
-      <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
-        Discover Stories, <span class="text-gray-700">Share Ideas</span>, Inspire the
-        World.
+    <!-- Left side  -->
+    <div class="mb-20 relative z-10 max-w-xl md:w-1/2 space-y-6 animate-fadeIn">
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight text-black">
+        We are changing the way people
+        <span class="text-orange-400">connect</span>
       </h1>
 
-      <p class="text-gray-600 text-lg md:text-xl mb-10">
-        Join a community of passionate writers and readers. Explore thought-provoking
-        articles, insightful stories, and creative minds shaping the world — one post at a
-        time.
+      <p class="text-lg md:text-xl leading-relaxed">
+        Fuel your curiosity, one story at a time.
       </p>
 
-      <!-- Action Btn -->
-      <div class="flex flex-wrap justify-center gap-4">
+      <div v-if="authStore.user" class="flex flex-wrap gap-4">
         <RouterLink
           :to="{ name: 'create' }"
-          class="px-6 py-3 bg-gray-900 text-white rounded-full font-semibold text-lg shadow-sm hover:bg-gray-800 transition"
+          class="px-6 py-3 bg-black border border-black text-white rounded-md font-semibold text-lg hover:bg-transparent hover:text-black hover:shadow-md transition-all duration-300 ease-in-out"
         >
-          Start Writing
+          Get started
         </RouterLink>
 
         <RouterLink
-          :to="{ name: 'home' }"
-          class="px-6 py-3 bg-white text-gray-900 border border-gray-800 rounded-full font-semibold text-lg hover:bg-gray-100 transition"
+          :to="{ name: 'about' }"
+          class="px-6 py-3 bg-transparent border border-black text-black rounded-md font-semibold text-lg hover:bg-black hover:text-white hover:shadow-md transition-all duration-300 ease-in-out"
         >
-          Read Articles
+          Learn more
+        </RouterLink>
+      </div>
+      <div v-else class="flex flex-wrap gap-4">
+        <RouterLink
+          :to="{ name: 'register' }"
+          class="px-6 py-3 bg-black border border-black text-white rounded-md font-semibold text-lg hover:bg-transparent hover:text-black hover:shadow-md transition-all duration-300 ease-in-out"
+        >
+          Get started
+        </RouterLink>
+
+        <RouterLink
+          :to="{ name: 'about' }"
+          class="px-6 py-3 bg-transparent border border-black text-black rounded-md font-semibold text-lg hover:bg-black hover:text-white hover:shadow-md transition-all duration-300 ease-in-out"
+        >
+          Learn more
         </RouterLink>
       </div>
     </div>
+
+    <!-- Right side Img -->
+    <div class="relative md:w-1/2 md:mt-0 flex justify-center md:justify-end py-10">
+      <img
+        src="/images/images.jpg"
+        alt="Hero Section Image"
+        class="rounded-2xl shadow-md max-w-full md:max-w-md object-cover hover:scale-105 transition-transform duration-500 ease-out"
+      />
+    </div>
+    <div class="border"></div>
   </section>
 </template>
 
-<style scoped>
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 1s ease-out forwards;
-}
-</style>
+<style scoped></style>

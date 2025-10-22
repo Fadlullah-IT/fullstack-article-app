@@ -32,8 +32,7 @@ function timeAgo(dateString) {
 <template>
   <div>
     <HeroSection />
-    <main class="min-h-screen py-10 px-4 md:px-12">
-      <!-- Page title -->
+    <main class="min-h-screen bg-[#f9f7f3] py-10 px-4 md:px-12">
       <h1 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-10">
         Latest Articles
       </h1>
@@ -43,40 +42,51 @@ function timeAgo(dateString) {
         <p>No articles yet. Be the first to write one!</p>
       </div>
 
-      <!-- Articles Grid -->
-      <div v-else class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <div
+      <!-- Articles -->
+      <div
+        v-else
+        class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4 sm:px-8"
+      >
+        <RouterLink
           v-for="article in articles"
           :key="article.id"
-          class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 overflow-hidden"
+          :to="{ name: 'show', params: { id: article.id } }"
+          class="bg-white rounded-xl border border-gray-200 overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer flex flex-col justify-between group"
         >
-          <div class="p-6 flex flex-col justify-between h-full">
-            <div>
-              <h2
-                class="font-bold text-xl text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          <div class="p-6 flex flex-col h-full">
+            <!-- Author -->
+            <div class="flex items-center gap-2 mb-3">
+              <div
+                class="w-7 h-7 flex items-center justify-center bg-black text-white rounded-full text-xs font-bold"
               >
-                {{ article.title }}
-              </h2>
-              <p class="text-sm text-gray-500 mt-1 mb-4">
-                by {{ article.user.name }}
-                <span v-if="article.created_at">
-                  · {{ timeAgo(article.created_at) }}</span
-                >
-              </p>
-
-              <p class="text-gray-700 text-sm leading-relaxed mb-6">
-                {{ article.body.slice(0, 120) }}...
+                {{ article.user.name.charAt(0).toUpperCase() }}
+              </div>
+              <p class="text-sm font-medium text-gray-700">
+                {{ article.user.name }}
               </p>
             </div>
 
-            <RouterLink
-              :to="{ name: 'show', params: { id: article.id } }"
-              class="text-blue-600 font-semibold text-sm hover:underline mt-auto"
+            <!-- Title -->
+            <h2
+              class="font-semibold text-[1.05rem] text-gray-900 leading-snug group-hover:text-gray-700 transition-colors line-clamp-2"
             >
-              Read More →
-            </RouterLink>
+              {{ article.title }}
+            </h2>
+
+            <!-- Body -->
+            <p class="text-gray-700 text-sm mt-2 mb-6 leading-relaxed line-clamp-3">
+              {{ article.body }}
+            </p>
+
+            <!-- Footer -->
+            <div class="flex items-center justify-between text-sm text-gray-700 mt-auto">
+              <span v-if="article.created_at">
+                {{ timeAgo(article.created_at) }}
+              </span>
+              <i class="fa-regular fa-bookmark group-hover:text-gray-700 transition"></i>
+            </div>
           </div>
-        </div>
+        </RouterLink>
       </div>
     </main>
     <footer>
