@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('authStore', {
   state: () => {
     return {
-      user: null,
-      errors: {},
+      user: null, //store user
+      errors: {}, //holds errors 
     }
   },
   actions: {
@@ -16,11 +16,11 @@ export const useAuthStore = defineStore('authStore', {
       if (!token) {
         this.user = null
         return
-      }
+      }  
 
       const res = await fetch('/api/user', {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, //load user where token exists
         },
       })
       const data = await res.json()
@@ -28,7 +28,7 @@ export const useAuthStore = defineStore('authStore', {
         this.user = data
       } else {
         this.user = null
-      }
+      } 
     },
 
     // login or register user
@@ -40,11 +40,11 @@ export const useAuthStore = defineStore('authStore', {
 
       const data = await res.json()
       if (data.errors) {
-        this.errors = data.errors
+        this.errors = data.errors  //return token and user info when succ
       } else {
         this.errors = {}
         localStorage.setItem('token', data.token)
-        this.user = data.user
+        this.user = data.user 
         // redirect
         router.push({ name: 'home' })
       }
@@ -63,7 +63,7 @@ export const useAuthStore = defineStore('authStore', {
       if (res.ok) {
         this.user = null
         this.errors = {}
-        localStorage.removeItem('token')
+        localStorage.removeItem('token') //clear user and token
         router.push({ name: 'home' })
         // redirect after logging out
       }

@@ -2,13 +2,13 @@ import router from '@/router'
 import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
 
-export const useArticleStore = defineStore('articleStore', {
+export const useArticleStore =  defineStore('articleStore', {
   state: () => {
     return {
       errors: {},
     }
   },
-  // Now the action will perform the function for our crud operation
+  // Now the action will perform the function for our crud action
 
   actions: {
     /*******************Get all Articles*******************/

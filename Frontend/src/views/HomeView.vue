@@ -12,27 +12,31 @@ onMounted(async () => {
   articles.value = await getAllArticles();
 });
 
-// time ago formatter
+// time  formatter
 function timeAgo(dateString) {
-  const now = new Date();
-  const posted = new Date(dateString);
-  const diffMs = now - posted;
-  const diffSec = Math.floor(diffMs / 1000);
-  const diffMin = Math.floor(diffSec / 60);
-  const diffHr = Math.floor(diffMin / 60);
-  const diffDay = Math.floor(diffHr / 24);
+  const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+  const diff = (new Date(dateString) - new Date()) / 1000; // seconds (negative = past)
 
-  if (diffDay > 0) return `${diffDay} day${diffDay > 1 ? "s" : ""} ago`;
-  if (diffHr > 0) return `${diffHr} hour${diffHr > 1 ? "s" : ""} ago`;
-  if (diffMin > 0) return `${diffMin} minute${diffMin > 1 ? "s" : ""} ago`;
-  return `just now`;
+  const units = [
+    ["day", 86400],
+    ["hour", 3600],
+    ["minute", 60],
+    ["second", 1],
+  ];
+
+  for (const [unit, secs] of units) {
+    const val = Math.trunc(diff / secs); //
+    if (Math.abs(val) >= 1) return rtf.format(val, unit);
+  }
+
+  return "just now";
 }
 </script>
 
 <template>
   <div>
     <HeroSection />
-    <main class="min-h-screen bg-[#f9f7f3] py-10 px-4 md:px-12">
+    <main class="min-h-screen bg-gray-100 py-10 px-4 md:px-12">
       <h1 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-10">
         Latest Articles
       </h1>

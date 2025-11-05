@@ -32,7 +32,7 @@ const router = createRouter({
       path: '/create',
       name: 'create',
       component: CreateView,
-      meta: { auth: true },
+      meta: { auth: true }, 
     },
     {
       path: '/articles/:id',

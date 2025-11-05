@@ -7,7 +7,7 @@ const authStore = useAuthStore();
 
 <template>
   <section
-    class="body border-b relative bg-[#f9f7f3] px-6 md:px-16 flex flex-col md:flex-row items-center justify-between overflow-hidden"
+    class="body relative bg-[#f9f7f3] px-6 md:px-16 flex flex-col md:flex-row items-center justify-between overflow-hidden"
     style="
       background-image: url('/images/download.png');
       background-size: cover;
