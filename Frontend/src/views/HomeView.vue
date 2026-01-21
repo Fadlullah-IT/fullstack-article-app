@@ -1,0 +1,100 @@
+<script setup>
+import { useArticleStore } from "@/stores/Article";
+import { onMounted, ref } from "vue";
+import { RouterLink } from "vue-router";
+import HeroSection from "@/components/HeroSection.vue";
+import FooterSection from "@/components/FooterSection.vue";
+
+const { getAllArticles } = useArticleStore();
+const articles = ref([]);
+
+onMounted(async () => {
+  articles.value = await getAllArticles();
+});
+
+// time  formatter
+function timeAgo(dateString) {
+  const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+  const diff = (new Date(dateString) - new Date()) / 1000; // seconds (negative = past)
+
+  const units = [
+    ["day", 86400],
+    ["hour", 3600],
+    ["minute", 60],
+    ["second", 1],
+  ];
+
+  for (const [unit, secs] of units) {
+    const val = Math.trunc(diff / secs); //
+    if (Math.abs(val) >= 1) return rtf.format(val, unit);
+  }
+
+  return "just now";
+}
+</script>
+
+<template>
+  <div>
+    <HeroSection />
+    <main class="min-h-screen bg-gray-100 py-10 px-4 md:px-12">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-10">
+        Latest Articles
+      </h1>
+
+      <!-- No Articles -->
+      <div v-if="articles.length === 0" class="text-center text-gray-500 text-lg">
+        <p>No articles yet. Be the first to write one!</p>
+      </div>
+
+      <!-- Articles -->
+      <div
+        v-else
+        class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4 sm:px-8"
+      >
+        <RouterLink
+          v-for="article in articles"
+          :key="article.id"
+          :to="{ name: 'show', params: { id: article.id } }"
+          class="bg-white rounded-xl border border-gray-200 overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer flex flex-col justify-between group"
+        >
+          <div class="p-6 flex flex-col h-full">
+            <!-- Author -->
+            <div class="flex items-center gap-2 mb-3">
+              <div
+                class="w-7 h-7 flex items-center justify-center bg-black text-white rounded-full text-xs font-bold"
+              >
+                {{ article.user.name.charAt(0).toUpperCase() }}
+              </div>
+              <p class="text-sm font-medium text-gray-700">
+                {{ article.user.name }}
+              </p>
+            </div>
+
+            <!-- Title -->
+            <h2
+              class="font-semibold text-[1.05rem] text-gray-900 leading-snug group-hover:text-gray-700 transition-colors line-clamp-2"
+            >
+              {{ article.title }}
+            </h2>
+
+            <!-- Body -->
+            <p class="text-gray-700 text-sm mt-2 mb-6 leading-relaxed line-clamp-3">
+              {{ article.body }}
+            </p>
+
+            <!-- Footer -->
+            <div class="flex items-center justify-between text-sm text-gray-700 mt-auto">
+              <span v-if="article.created_at">
+                {{ timeAgo(article.created_at) }}
+              </span>
+              <i class="fa-regular fa-bookmark group-hover:text-gray-700 transition"></i>
+            </div>
+          </div>
+        </RouterLink>
+      </div>
+    </main>
+    <footer>
+      <FooterSection />
+    </footer>
+  </div>
+</template>
